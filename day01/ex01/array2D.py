@@ -8,9 +8,8 @@ def slice_me(family: list, start: int, end: int) -> list:
 prints shape of passed 2DArray, slices it based on indexes passed.
 Returns the sliced array as a list."""
 
-    for entry in family:
-        if not isinstance(entry, list):
-            raise TypeError("non 'list' element found in 'family'")
+    if not all(isinstance(entry, list) for entry in family):
+        raise TypeError("non 'list' element found in 'family'")
     sizes = [len(x) for x in family]
     if sum(sizes) / len(sizes) != sizes[0]:
         raise ValueError("not all nested lists are the same size")
