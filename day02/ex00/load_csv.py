@@ -13,7 +13,8 @@ def load(path: str) -> pd.DataFrame | None:
     """
 
     try:
-        df = pd.read_csv(path)
+        assert path.endswith('.csv'), "file does not have '.csv' extension"
+        df = pd.read_csv(path, header=[0], index_col=[0])
         print("Loading dataset of dimensions", df.shape)
         return df
     except Exception as e:
@@ -23,7 +24,7 @@ def load(path: str) -> pd.DataFrame | None:
 
 def main():
     """main tests for load func"""
-    
+
     try:
         print(load("life_expectancy_years.csv"))
     except Exception as e:
