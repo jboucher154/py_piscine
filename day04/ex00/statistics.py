@@ -9,7 +9,7 @@ def calc_mean(args: tuple[int | float]) -> float | None:
         float | None: calculated mean or None if error
     """
     if len(args) == 0 or not all(isinstance(x, (int, float)) for x in args):
-        print("ERROR")
+        return None
     else:
         mean = sum(args) / len(args)
         return mean
@@ -26,7 +26,6 @@ def find_median(args: tuple[int | float]) -> float | None:
         float | None: median of args passed or None if error
     """
     if len(args) == 0 or not all(isinstance(x, (int, float)) for x in args):
-        print("ERROR")
         return None
     else:
         arg_list = list(args)
@@ -47,7 +46,6 @@ def find_quartiles(args: tuple[int | float]) -> list[float] | None:
         list[float] | None: list of 25th and 75th quartiles or None if error
     """
     if len(args) == 0 or not all(isinstance(x, (int, float)) for x in args):
-        print("ERROR")
         return None
     else:
         qrtls = []
@@ -74,7 +72,6 @@ def get_standard_deviation(args: tuple[int | float]) -> float | None:
         float | None: standard deviation of args or None if error
     """
     if len(args) == 0 or not all(isinstance(x, (int, float)) for x in args):
-        print("ERROR")
         return None
     else:
         mean = calc_mean(args)
@@ -97,7 +94,6 @@ def get_variance(args: tuple[int | float]) -> float | None:
         None if error
     """
     if len(args) == 0 or not all(isinstance(x, (int, float)) for x in args):
-        print("ERROR")
         return None
     else:
         mean = calc_mean(args)
@@ -115,27 +111,21 @@ def ft_statistics(*args: any, **kwargs: any) -> None:
         **kwargs (any): values indicate calculations to be done.
         Valid values: [mean, median, std, quartile, var]
     """
+    stats_dict = {
+        "mean": calc_mean,
+        "median": find_median,
+        "std": get_standard_deviation,
+        "quartile": find_quartiles,
+        "var": get_variance
+    }
+
     for key, value in kwargs.items():
-        if value == "mean":
-            mean = calc_mean(args)
-            if mean:
-                print(f"{value} : {mean}")
-        elif value == "median":
-            median = find_median(args)
-            if median:
-                print(f"{value} : {median}")
-        elif value == "std":
-            std_div = get_standard_deviation(args)
-            if std_div:
-                print(f"{value} : {std_div}")
-        elif value == "quartile":
-            qrtls = find_quartiles(args)
-            if qrtls:
-                print(f"{value} : {qrtls}")
-        elif value == "var":
-            variance = get_variance(args)
-            if variance:
-                print(f"{value} : {variance}")
+        if value in stats_dict:
+            res = stats_dict[value](args)
+            if not res:
+                print("ERROR")
+            else:
+                print(f"{value} : {res}")
 
 
 def main():
